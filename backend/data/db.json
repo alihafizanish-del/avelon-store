@@ -1,0 +1,74 @@
+{
+  "products": [
+    {
+      "id": "prod-1",
+      "name": "Milano Bespoke Tuxedo",
+      "category": "Suits & Blazers",
+      "catalog": "Bespoke & Tuxedos",
+      "price": 185000,
+      "images": [
+        "https://images.unsplash.com/photo-1594938298603-c8148c4dae35?q=80&w=800&auto=format&fit=crop",
+        "https://images.unsplash.com/photo-1507679799987-c73779587ccf?q=80&w=800&auto=format&fit=crop"
+      ],
+      "description": "Hand-tailored in Milan from superfine wool and silk lapels."
+    },
+    {
+      "id": "prod-2",
+      "name": "Chronos Royal Gold Watch",
+      "category": "Watches",
+      "catalog": "Chain Watches",
+      "price": 340000,
+      "images": [
+        "https://images.unsplash.com/photo-1524592094714-0f0654e20314?q=80&w=800&auto=format&fit=crop"
+      ],
+      "description": "Automatic mechanical movement housed in an 18k gold-plated case."
+    },
+    {
+      "id": "prod-3",
+      "name": "Firenze Full-Grain Briefcase",
+      "category": "Leather Goods",
+      "catalog": "Briefcases & Luggage",
+      "price": 95000,
+      "images": [
+        "https://images.unsplash.com/photo-1553062407-98eeb64c6a62?q=80&w=800&auto=format&fit=crop"
+      ],
+      "description": "Vegetable-tanned Tuscan leather with solid brass hardware."
+    },
+    {
+      "id": "prod-4",
+      "name": "Venetian Oxford Dress Shoes",
+      "category": "Footwear",
+      "catalog": "Dress Shoes & Oxfords",
+      "price": 115000,
+      "images": [
+        "https://images.unsplash.com/photo-1614252235316-8c857d38b5f4?q=80&w=800&auto=format&fit=crop"
+      ],
+      "description": "Hand-patinated calfskin leather crafted by master shoemakers."
+    }
+  ],
+  "catalogs": [
+    {"id": "cat-1", "collection": "Suits & Blazers", "name": "Bespoke & Tuxedos"},
+    {"id": "cat-2", "collection": "Suits & Blazers", "name": "Overcoats & Cashmere"},
+    {"id": "cat-3", "collection": "Watches", "name": "Strap Watches"},
+    {"id": "cat-4", "collection": "Watches", "name": "Chain Watches"},
+    {"id": "cat-5", "collection": "Leather Goods", "name": "Briefcases & Luggage"},
+    {"id": "cat-6", "collection": "Leather Goods", "name": "Wallets & Small Goods"},
+    {"id": "cat-7", "collection": "Footwear", "name": "Dress Shoes & Oxfords"}
+  ],
+  "couriers": [
+    {"name": "TCS Express", "urlTemplate": "https://www.tcsexpress.com/tracking/{tracking_no}"},
+    {"name": "Leopards Courier", "urlTemplate": "https://www.leopardscourier.com/tracking?track_no={tracking_no}"},
+    {"name": "M&P Logistics", "urlTemplate": "https://www.mulphico.pk/tracking/?express_no={tracking_no}"},
+    {"name": "Blue Ex", "urlTemplate": "https://blue-ex.com/tracking/?id={tracking_no}"}
+  ],
+  "orders": [],
+  "settings": {
+    "instagramUrl": "https://instagram.com/avelon.official",
+    "facebookUrl": "https://facebook.com/avelon.fashion",
+    "tiktokUrl": "https://tiktok.com/@avelon.official",
+    "whatsappNumber": "+92 325 4090601",
+    "adminPassword": "admin",
+    "easypaisa": { "enabled": true, "accountName": "Avelon Store", "accountNumber": "03254090601", "appLink": "https://easypaisa.com.pk/", "iconUrl": "" },
+    "jazzcash": { "enabled": true, "accountName": "Avelon Store", "accountNumber": "03001234567", "appLink": "https://www.jazzcash.com.pk/", "iconUrl": "" }
+  }
+}
