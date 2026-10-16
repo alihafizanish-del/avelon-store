@@ -9,3 +9,4 @@ A luxury e-commerce and concierge web application featuring product image carous
    ```cmd
    cd backend
    npm install"# avelon-store" 
+"# avelon-store" 
