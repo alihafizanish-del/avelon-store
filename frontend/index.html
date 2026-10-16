@@ -465,8 +465,10 @@ Proceed to Secure Checkout
 <input type="url" id="setting-ep-link" placeholder="https://easypaisa.com.pk/" class="w-full bg-onyx border border-gold-500/30 rounded-xl p-3 text-xs text-white focus:outline-none focus:border-gold-400 font-mono">
 </div>
 <div>
-<label class="block text-xs font-medium text-gray-300 mb-1">Custom Icon Picture URL (Optional)</label>
-<input type="url" id="setting-ep-icon" placeholder="https://example.com/easypaisa-icon.png" class="w-full bg-onyx border border-gold-500/30 rounded-xl p-3 text-xs text-white focus:outline-none focus:border-gold-400 font-mono">
+<label class="block text-xs font-medium text-gray-300 mb-1">Custom Icon Picture (Device File Picker)</label>
+<input type="file" id="setting-ep-icon-file" accept="image/*" onchange="handleEpIconUpload(event)" class="w-full bg-onyx border border-gold-500/30 rounded-xl p-2.5 text-xs text-white focus:outline-none file:mr-4 file:py-2 file:px-4 file:rounded-xl file:border-0 file:text-xs file:font-semibold file:bg-gold-500 file:text-black hover:file:bg-gold-400">
+<input type="hidden" id="setting-ep-icon">
+<div id="setting-ep-preview" class="mt-2"></div>
 </div>
 <div class="flex items-center gap-2 pt-1">
 <input type="checkbox" id="setting-ep-toggle" class="w-4 h-4 rounded bg-onyx border-gold-500 text-gold-500 focus:ring-0">
@@ -488,8 +490,10 @@ Proceed to Secure Checkout
 <input type="url" id="setting-jc-link" placeholder="https://www.jazzcash.com.pk/" class="w-full bg-onyx border border-gold-500/30 rounded-xl p-3 text-xs text-white focus:outline-none focus:border-gold-400 font-mono">
 </div>
 <div>
-<label class="block text-xs font-medium text-gray-300 mb-1">Custom Icon Picture URL (Optional)</label>
-<input type="url" id="setting-jc-icon" placeholder="https://example.com/jazzcash-icon.png" class="w-full bg-onyx border border-gold-500/30 rounded-xl p-3 text-xs text-white focus:outline-none focus:border-gold-400 font-mono">
+<label class="block text-xs font-medium text-gray-300 mb-1">Custom Icon Picture (Device File Picker)</label>
+<input type="file" id="setting-jc-icon-file" accept="image/*" onchange="handleJcIconUpload(event)" class="w-full bg-onyx border border-gold-500/30 rounded-xl p-2.5 text-xs text-white focus:outline-none file:mr-4 file:py-2 file:px-4 file:rounded-xl file:border-0 file:text-xs file:font-semibold file:bg-gold-500 file:text-black hover:file:bg-gold-400">
+<input type="hidden" id="setting-jc-icon">
+<div id="setting-jc-preview" class="mt-2"></div>
 </div>
 <div class="flex items-center gap-2 pt-1">
 <input type="checkbox" id="setting-jc-toggle" class="w-4 h-4 rounded bg-onyx border-gold-500 text-gold-500 focus:ring-0">
@@ -522,8 +526,10 @@ Proceed to Secure Checkout
 <input type="text" id="setting-wa-num" class="w-full bg-onyx border border-gold-500/30 rounded-xl p-3 text-xs text-white focus:outline-none focus:border-gold-400 font-mono">
 </div>
 <div class="sm:col-span-2">
-<label class="block text-xs font-medium text-gray-300 mb-1">Website Icon Image URL</label>
-<input type="url" id="setting-favicon-url" placeholder="https://kommodo.ai/i/LdrTsCdDsJIV9vP1OMth" class="w-full bg-onyx border border-gold-500/30 rounded-xl p-3 text-xs text-white focus:outline-none focus:border-gold-400 font-mono">
+<label class="block text-xs font-medium text-gray-300 mb-1">Website Icon / Favicon Image Upload</label>
+<input type="file" id="setting-favicon-file" accept="image/*" onchange="handleFaviconUpload(event)" class="w-full bg-onyx border border-gold-500/30 rounded-xl p-2.5 text-xs text-white focus:outline-none file:mr-4 file:py-2 file:px-4 file:rounded-xl file:border-0 file:text-xs file:font-semibold file:bg-gold-500 file:text-black hover:file:bg-gold-400">
+<input type="hidden" id="setting-favicon-url">
+<div id="setting-favicon-preview" class="mt-2"></div>
 </div>
 </div>
 <div class="pt-4">
@@ -573,8 +579,10 @@ Proceed to Secure Checkout
 <input type="number" id="edit-prod-price" class="w-full bg-onyx border border-gold-500/30 rounded-xl p-3 text-xs text-white focus:outline-none focus:border-gold-400 font-mono">
 </div>
 <div>
-<label class="block text-xs font-medium text-gray-300 mb-1">Image URLs (comma or newline separated for carousel)</label>
-<textarea id="edit-prod-imgs" rows="3" class="w-full bg-onyx border border-gold-500/30 rounded-xl p-3 text-xs text-white focus:outline-none focus:border-gold-400 font-mono" placeholder="https://image1.jpg, https://image2.jpg"></textarea>
+<label class="block text-xs font-medium text-gray-300 mb-1">Product Images (Upload from Device File Picker)</label>
+<input type="file" id="edit-prod-file-input" multiple accept="image/*" onchange="handleProductImageUpload(event)" class="w-full bg-onyx border border-gold-500/30 rounded-xl p-2.5 text-xs text-white focus:outline-none file:mr-4 file:py-2 file:px-4 file:rounded-xl file:border-0 file:text-xs file:font-semibold file:bg-gold-500 file:text-black hover:file:bg-gold-400">
+<input type="hidden" id="edit-prod-imgs">
+<div id="edit-prod-preview" class="flex flex-wrap gap-2 mt-2"></div>
 </div>
 <div>
 <label class="block text-xs font-medium text-gray-300 mb-1">Description</label>
@@ -722,6 +730,7 @@ let state = {
 };
 
 let activeImageIndices = {};
+let tempUploadedProductImgs = [];
 
 window.addEventListener('DOMContentLoaded', () => {
   initCursorGlow();
@@ -790,6 +799,72 @@ function getProductImages(p) {
   if (p.images && Array.isArray(p.images) && p.images.length > 0) return p.images;
   if (p.image) return [p.image];
   return ['https://placehold.co/600x750/0a0a0a/d4af37?text=AVELON'];
+}
+
+function handleProductImageUpload(event) {
+  const files = event.target.files;
+  if (!files || files.length === 0) return;
+  let loadedCount = 0;
+  Array.from(files).forEach(file => {
+    const reader = new FileReader();
+    reader.onload = function(e) {
+      tempUploadedProductImgs.push(e.target.result);
+      loadedCount++;
+      if (loadedCount === files.length) {
+        updateProductImagePreview();
+      }
+    };
+    reader.readAsDataURL(file);
+  });
+}
+
+function updateProductImagePreview() {
+  const preview = document.getElementById('edit-prod-preview');
+  document.getElementById('edit-prod-imgs').value = JSON.stringify(tempUploadedProductImgs);
+  preview.innerHTML = tempUploadedProductImgs.map((img, i) => `
+    <div class="relative w-14 h-14 rounded-lg overflow-hidden border border-gold-500/40 group">
+      <img src="${img}" class="w-full h-full object-cover">
+      <button type="button" onclick="removeTempProdImg(${i})" class="absolute top-0 right-0 bg-red-600 text-white text-[9px] w-4 h-4 flex items-center justify-center rounded-bl">&times;</button>
+    </div>
+  `).join('');
+}
+
+function removeTempProdImg(i) {
+  tempUploadedProductImgs.splice(i, 1);
+  updateProductImagePreview();
+}
+
+function handleFaviconUpload(event) {
+  const file = event.target.files[0];
+  if (!file) return;
+  const reader = new FileReader();
+  reader.onload = function(e) {
+    document.getElementById('setting-favicon-url').value = e.target.result;
+    document.getElementById('setting-favicon-preview').innerHTML = `<img src="${e.target.result}" class="w-8 h-8 rounded-full object-cover border border-gold-500">`;
+  };
+  reader.readAsDataURL(file);
+}
+
+function handleEpIconUpload(event) {
+  const file = event.target.files[0];
+  if (!file) return;
+  const reader = new FileReader();
+  reader.onload = function(e) {
+    document.getElementById('setting-ep-icon').value = e.target.result;
+    document.getElementById('setting-ep-preview').innerHTML = `<img src="${e.target.result}" class="w-8 h-8 rounded-full object-cover border border-gold-500">`;
+  };
+  reader.readAsDataURL(file);
+}
+
+function handleJcIconUpload(event) {
+  const file = event.target.files[0];
+  if (!file) return;
+  const reader = new FileReader();
+  reader.onload = function(e) {
+    document.getElementById('setting-jc-icon').value = e.target.result;
+    document.getElementById('setting-jc-preview').innerHTML = `<img src="${e.target.result}" class="w-8 h-8 rounded-full object-cover border border-gold-500">`;
+  };
+  reader.readAsDataURL(file);
 }
 
 function changeProductImage(prodId, direction, event) {
@@ -1301,6 +1376,9 @@ function openAddProductModal() {
   document.getElementById('edit-prod-name').value = '';
   document.getElementById('edit-prod-price').value = '';
   document.getElementById('edit-prod-imgs').value = '';
+  document.getElementById('edit-prod-file-input').value = '';
+  tempUploadedProductImgs = [];
+  document.getElementById('edit-prod-preview').innerHTML = '';
   document.getElementById('edit-prod-desc').value = '';
   populateCatalogSelectForProduct();
   document.getElementById('product-edit-modal').classList.remove('hidden');
@@ -1315,7 +1393,9 @@ function openEditProductModal(idx) {
   populateCatalogSelectForProduct(p.catalog);
   document.getElementById('edit-prod-price').value = p.price;
   const imgs = getProductImages(p);
-  document.getElementById('edit-prod-imgs').value = imgs.join(', ');
+  tempUploadedProductImgs = [...imgs];
+  document.getElementById('edit-prod-imgs').value = JSON.stringify(tempUploadedProductImgs);
+  updateProductImagePreview();
   document.getElementById('edit-prod-desc').value = p.description;
   document.getElementById('product-edit-modal').classList.remove('hidden');
 }
@@ -1338,13 +1418,15 @@ function saveProductData() {
   const category = document.getElementById('edit-prod-cat').value;
   const catalog = document.getElementById('edit-prod-catalog-select').value;
   const price = parseFloat(document.getElementById('edit-prod-price').value) || 0;
-  const imgsRaw = document.getElementById('edit-prod-imgs').value.trim();
   const description = document.getElementById('edit-prod-desc').value.trim();
   if (!name || !price) {
     showToast('Please provide product name and price.');
     return;
   }
-  const images = imgsRaw ? imgsRaw.split(/[\n,]+/).map(s => s.trim()).filter(Boolean) : ['https://placehold.co/600x750/0a0a0a/d4af37?text=AVELON'];
+  let images = [...tempUploadedProductImgs];
+  if (images.length === 0) {
+    images = ['https://placehold.co/600x750/0a0a0a/d4af37?text=AVELON'];
+  }
   if (id) {
     const p = state.products.find(item => item.id === id);
     if (p) {
@@ -1518,18 +1600,40 @@ function populateSettingsFields() {
   document.getElementById('setting-fb-url').value = s.facebookUrl || '';
   document.getElementById('setting-tiktok-url').value = s.tiktokUrl || '';
   document.getElementById('setting-wa-num').value = s.whatsappNumber || '';
-  document.getElementById('setting-favicon-url').value = s.faviconUrl || '';
+  
+  const favUrl = s.faviconUrl || '';
+  document.getElementById('setting-favicon-url').value = favUrl;
+  document.getElementById('setting-favicon-file').value = '';
+  if (favUrl) {
+    document.getElementById('setting-favicon-preview').innerHTML = `<img src="${favUrl}" class="w-8 h-8 rounded-full object-cover border border-gold-500">`;
+  } else {
+    document.getElementById('setting-favicon-preview').innerHTML = '';
+  }
+
   const ep = s.easypaisa || {};
   document.getElementById('setting-ep-name').value = ep.accountName || '';
   document.getElementById('setting-ep-num').value = ep.accountNumber || '';
   document.getElementById('setting-ep-link').value = ep.appLink || '';
   document.getElementById('setting-ep-icon').value = ep.iconUrl || '';
+  document.getElementById('setting-ep-icon-file').value = '';
+  if (ep.iconUrl) {
+    document.getElementById('setting-ep-preview').innerHTML = `<img src="${ep.iconUrl}" class="w-8 h-8 rounded-full object-cover border border-gold-500">`;
+  } else {
+    document.getElementById('setting-ep-preview').innerHTML = '';
+  }
   document.getElementById('setting-ep-toggle').checked = ep.enabled !== false;
+
   const jc = s.jazzcash || {};
   document.getElementById('setting-jc-name').value = jc.accountName || '';
   document.getElementById('setting-jc-num').value = jc.accountNumber || '';
   document.getElementById('setting-jc-link').value = jc.appLink || '';
   document.getElementById('setting-jc-icon').value = jc.iconUrl || '';
+  document.getElementById('setting-jc-icon-file').value = '';
+  if (jc.iconUrl) {
+    document.getElementById('setting-jc-preview').innerHTML = `<img src="${jc.iconUrl}" class="w-8 h-8 rounded-full object-cover border border-gold-500">`;
+  } else {
+    document.getElementById('setting-jc-preview').innerHTML = '';
+  }
   document.getElementById('setting-jc-toggle').checked = jc.enabled !== false;
 }
 
