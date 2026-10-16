@@ -8,4 +8,4 @@ A luxury e-commerce and concierge web application featuring product image carous
 2. Install dependencies for the backend:
    ```cmd
    cd backend
-   npm install
+   npm install"# avelon-store" 
