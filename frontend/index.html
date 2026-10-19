@@ -113,7 +113,10 @@ body {
 <header id="site-header" class="fixed top-0 left-0 right-0 z-50 glass-panel border-b border-gold-500/20 transition-all duration-300">
 <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
 <a href="#" class="flex items-center gap-3 group">
-<img src="https://kommodo.ai/i/LdrTsCdDsJIV9vP1OMth" alt="AVELON Logo" class="w-11 h-11 rounded-full object-cover shadow-xl group-hover:scale-105 transition-transform border-2 border-gold-500/50">
+<div class="w-11 h-11 rounded-full bg-gradient-to-br from-charcoal via-graphite to-onyx border-2 border-gold-500/60 shadow-xl group-hover:scale-105 transition-transform flex items-center justify-center relative overflow-hidden">
+<div class="absolute inset-0 bg-gold-500/10"></div>
+<span class="font-serif text-xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-gold-300 via-gold-400 to-gold-600">A</span>
+</div>
 <div class="flex flex-col">
 <span class="font-serif text-2xl font-bold tracking-widest text-gold-400">AVELON</span>
 <span class="text-[9px] tracking-[0.3em] uppercase text-gray-400">Timeless Fashion</span>
@@ -234,7 +237,9 @@ Founded on uncompromising principles of Italian craftsmanship and modern opulenc
 <div class="grid grid-cols-1 md:grid-cols-4 gap-8 pb-10 border-b border-gold-500/15">
 <div class="space-y-3 md:col-span-1">
 <div class="flex items-center gap-3">
-<img src="https://kommodo.ai/i/LdrTsCdDsJIV9vP1OMth" alt="Logo" class="w-8 h-8 rounded-full object-cover border border-gold-500/40">
+<div class="w-8 h-8 rounded-full bg-gradient-to-br from-charcoal to-onyx border border-gold-500/50 flex items-center justify-center">
+<span class="font-serif text-sm font-bold text-gold-400">A</span>
+</div>
 <span class="font-serif text-xl font-bold tracking-widest text-gold-400">AVELON</span>
 </div>
 <p class="text-xs text-gray-400 leading-relaxed">Timeless luxury fashion & accessories crafted for the elite.</p>
@@ -276,11 +281,11 @@ Founded on uncompromising principles of Italian craftsmanship and modern opulenc
 <div id="floating-shortcuts-container" class="fixed bottom-6 right-6 z-40 flex flex-col gap-3 items-end"></div>
 <!-- Product Detail Modal -->
 <div id="product-modal" class="fixed inset-0 z-50 hidden flex items-center justify-center p-4 bg-black/80 backdrop-blur-md">
-<div class="glass-panel w-full max-w-3xl rounded-2xl overflow-hidden border border-gold-500/40 relative shadow-2xl">
+<div class="glass-panel w-full max-w-4xl rounded-2xl overflow-hidden border border-gold-500/40 relative shadow-2xl max-h-[92vh] flex flex-col">
 <button onclick="closeProductModal()" class="absolute top-4 right-4 z-10 w-9 h-9 rounded-full bg-onyx/90 border border-gold-500/40 text-gold-400 flex items-center justify-center hover:bg-gold-500 hover:text-black transition-all">
 <i class="fa-solid fa-xmark text-lg"></i>
 </button>
-<div id="product-modal-content" class="grid grid-cols-1 md:grid-cols-2"></div>
+<div id="product-modal-content" class="overflow-y-auto p-6 sm:p-8 space-y-8"></div>
 </div>
 </div>
 <!-- Shopping Cart Modal -->
@@ -330,6 +335,10 @@ Proceed to Secure Checkout
 <textarea id="chk-address" required rows="2" class="w-full bg-onyx border border-gold-500/30 rounded-xl p-3 text-xs text-white focus:outline-none focus:border-gold-400" placeholder="Street address, apartment, city..."></textarea>
 </div>
 <div>
+<label class="block text-xs font-medium text-gray-300 mb-1">Extra Notes / Message (Optional)</label>
+<textarea id="chk-message" rows="2" class="w-full bg-onyx border border-gold-500/30 rounded-xl p-3 text-xs text-white focus:outline-none focus:border-gold-400" placeholder="Any special delivery or product instructions..."></textarea>
+</div>
+<div>
 <label class="block text-xs font-medium text-gray-300 mb-1">Preferred Courier Partner</label>
 <select id="chk-courier" class="w-full bg-onyx border border-gold-500/30 rounded-xl p-3 text-xs text-white focus:outline-none focus:border-gold-400"></select>
 </div>
@@ -343,7 +352,7 @@ Proceed to Secure Checkout
 </div>
 <div class="pt-4 flex gap-3">
 <button type="button" onclick="closeCheckoutModal()" class="flex-1 py-3 rounded-xl glass-card text-gray-300 hover:text-white text-xs font-bold uppercase">Cancel</button>
-<button type="submit" class="flex-1 py-3 rounded-xl bg-gold-500 hover:bg-gold-400 text-black text-xs font-bold uppercase tracking-wider shadow-lg">Place Order</button>
+<button type="submit" class="flex-1 py-3 rounded-xl bg-gold-500 hover:bg-gold-400 text-black text-xs font-bold uppercase tracking-wider shadow-lg">Place Order & Send to WhatsApp</button>
 </div>
 </form>
 </div>
@@ -578,6 +587,16 @@ Proceed to Secure Checkout
 <label class="block text-xs font-medium text-gray-300 mb-1">Price (PKR)</label>
 <input type="number" id="edit-prod-price" class="w-full bg-onyx border border-gold-500/30 rounded-xl p-3 text-xs text-white focus:outline-none focus:border-gold-400 font-mono">
 </div>
+<div class="grid grid-cols-2 gap-4">
+<div>
+<label class="block text-xs font-medium text-gray-300 mb-1">Available Colors (comma separated)</label>
+<input type="text" id="edit-prod-colors" class="w-full bg-onyx border border-gold-500/30 rounded-xl p-3 text-xs text-white focus:outline-none focus:border-gold-400" placeholder="Black, Gold, Navy">
+</div>
+<div>
+<label class="block text-xs font-medium text-gray-300 mb-1">Available Sizes (comma separated)</label>
+<input type="text" id="edit-prod-sizes" class="w-full bg-onyx border border-gold-500/30 rounded-xl p-3 text-xs text-white focus:outline-none focus:border-gold-400" placeholder="S, M, L, XL">
+</div>
+</div>
 <div>
 <label class="block text-xs font-medium text-gray-300 mb-1">Product Images (Upload from Device File Picker)</label>
 <input type="file" id="edit-prod-file-input" multiple accept="image/*" onchange="handleProductImageUpload(event)" class="w-full bg-onyx border border-gold-500/30 rounded-xl p-2.5 text-xs text-white focus:outline-none file:mr-4 file:py-2 file:px-4 file:rounded-xl file:border-0 file:text-xs file:font-semibold file:bg-gold-500 file:text-black hover:file:bg-gold-400">
@@ -650,11 +669,16 @@ const DEFAULT_PRODUCTS = [
     category: 'Suits & Blazers',
     catalog: 'Bespoke & Tuxedos',
     price: 185000,
+    colors: ['Jet Black', 'Midnight Navy', 'Charcoal Grey'],
+    sizes: ['36R', '38R', '40R', '42R', '44R'],
     images: [
       'https://images.unsplash.com/photo-1594938298603-c8148c4dae35?q=80&w=800&auto=format&fit=crop',
       'https://images.unsplash.com/photo-1507679799987-c73779587ccf?q=80&w=800&auto=format&fit=crop'
     ],
-    description: 'Hand-tailored in Milan from superfine wool and silk lapels.'
+    description: 'Hand-tailored in Milan from superfine wool and silk lapels.',
+    reviews: [
+      { name: 'Sohail Ahmed', rating: 5, comment: 'Absolute perfection in tailoring and fabric quality.', date: '2026-06-12' }
+    ]
   },
   {
     id: 'prod-2',
@@ -662,10 +686,15 @@ const DEFAULT_PRODUCTS = [
     category: 'Watches',
     catalog: 'Chain Watches',
     price: 340000,
+    colors: ['Yellow Gold', 'Rose Gold', 'Platinum'],
+    sizes: ['Standard 41mm'],
     images: [
       'https://images.unsplash.com/photo-1524592094714-0f0654e20314?q=80&w=800&auto=format&fit=crop'
     ],
-    description: 'Automatic mechanical movement housed in an 18k gold-plated case.'
+    description: 'Automatic mechanical movement housed in an 18k gold-plated case.',
+    reviews: [
+      { name: 'Hamza Khan', rating: 5, comment: 'Stunning craftsmanship. Gets compliments everywhere.', date: '2026-07-01' }
+    ]
   },
   {
     id: 'prod-3',
@@ -673,10 +702,13 @@ const DEFAULT_PRODUCTS = [
     category: 'Leather Goods',
     catalog: 'Briefcases & Luggage',
     price: 95000,
+    colors: ['Cognac Brown', 'Dark Espresso', 'Black'],
+    sizes: ['One Size'],
     images: [
       'https://images.unsplash.com/photo-1553062407-98eeb64c6a62?q=80&w=800&auto=format&fit=crop'
     ],
-    description: 'Vegetable-tanned Tuscan leather with solid brass hardware.'
+    description: 'Vegetable-tanned Tuscan leather with solid brass hardware.',
+    reviews: []
   },
   {
     id: 'prod-4',
@@ -684,10 +716,15 @@ const DEFAULT_PRODUCTS = [
     category: 'Footwear',
     catalog: 'Dress Shoes & Oxfords',
     price: 115000,
+    colors: ['Burgundy', 'Black', 'Tan'],
+    sizes: ['US 8 / EU 41', 'US 9 / EU 42', 'US 10 / EU 43', 'US 11 / EU 44'],
     images: [
       'https://images.unsplash.com/photo-1614252235316-8c857d38b5f4?q=80&w=800&auto=format&fit=crop'
     ],
-    description: 'Hand-patinated calfskin leather crafted by master shoemakers.'
+    description: 'Hand-patinated calfskin leather crafted by master shoemakers.',
+    reviews: [
+      { name: 'Bilal Riaz', rating: 4, comment: 'Extremely comfortable and premium look.', date: '2026-08-05' }
+    ]
   }
 ];
 
@@ -740,6 +777,12 @@ window.addEventListener('DOMContentLoaded', () => {
   applySettingsToUI();
   renderFloatingPaymentShortcuts();
   document.getElementById('year-span').innerText = new Date().getFullYear();
+
+  // Check URL hash for direct product opening
+  if (window.location.hash.startsWith('#product-')) {
+    const prodId = window.location.hash.replace('#product-', '');
+    setTimeout(() => { openProductModal(prodId); }, 500);
+  }
 });
 
 function initCursorGlow() {
@@ -1029,57 +1072,290 @@ function openProductModal(id) {
   const modal = document.getElementById('product-modal');
   const content = document.getElementById('product-modal-content');
   if (!modal || !content) return;
+  
   const imgs = getProductImages(p);
-  const hasMultiple = imgs.length > 1;
   const currentIdx = activeImageIndices[p.id] || 0;
   const currentImg = imgs[currentIdx];
+  const hasMultiple = imgs.length > 1;
+
+  const colors = p.colors && p.colors.length > 0 ? p.colors : ['Standard'];
+  const sizes = p.sizes && p.sizes.length > 0 ? p.sizes : ['Standard Size'];
+
+  const reviews = p.reviews || [];
+  const avgRating = reviews.length > 0 ? (reviews.reduce((sum, r) => sum + r.rating, 0) / reviews.length).toFixed(1) : 'No reviews yet';
+
+  const productUrl = window.location.origin + window.location.pathname + '#product-' + p.id;
+  const qrCodeUrl = `https://api.qrserver.com/v1/create-qr-code/?size=140x140&data=${encodeURIComponent(productUrl)}`;
+
   content.innerHTML = `
-    <div class="aspect-[4/5] bg-onyx relative group/modalimg">
-      <img id="modal-img-${p.id}" src="${currentImg}" alt="${p.name}" class="w-full h-full object-cover">
-      ${hasMultiple ? `
-        <button onclick="changeProductImage('${p.id}', -1, event)" class="absolute left-2 top-1/2 -translate-y-1/2 w-9 h-9 rounded-full bg-black/60 text-gold-400 flex items-center justify-center hover:bg-black transition-all">
-          <i class="fa-solid fa-chevron-left text-sm"></i>
-        </button>
-        <button onclick="changeProductImage('${p.id}', 1, event)" class="absolute right-2 top-1/2 -translate-y-1/2 w-9 h-9 rounded-full bg-black/60 text-gold-400 flex items-center justify-center hover:bg-black transition-all">
-          <i class="fa-solid fa-chevron-right text-sm"></i>
-        </button>
-        <div class="absolute bottom-3 left-1/2 -translate-x-1/2 bg-black/70 px-3 py-1 rounded-full text-xs text-gold-400 font-mono">
-          <span id="modal-img-idx-${p.id}">${currentIdx + 1}</span>/${imgs.length}
-        </div>` : ''}
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+      <!-- Image Carousel -->
+      <div class="space-y-4">
+        <div class="aspect-[4/5] bg-onyx relative rounded-2xl overflow-hidden border border-gold-500/30 group/modalimg">
+          <img id="modal-img-${p.id}" src="${currentImg}" alt="${p.name}" class="w-full h-full object-cover">
+          ${hasMultiple ? `
+            <button onclick="changeProductImage('${p.id}', -1, event)" class="absolute left-3 top-1/2 -translate-y-1/2 w-9 h-9 rounded-full bg-black/70 text-gold-400 flex items-center justify-center hover:bg-black transition-all">
+              <i class="fa-solid fa-chevron-left text-sm"></i>
+            </button>
+            <button onclick="changeProductImage('${p.id}', 1, event)" class="absolute right-3 top-1/2 -translate-y-1/2 w-9 h-9 rounded-full bg-black/70 text-gold-400 flex items-center justify-center hover:bg-black transition-all">
+              <i class="fa-solid fa-chevron-right text-sm"></i>
+            </button>
+            <div class="absolute bottom-3 left-1/2 -translate-x-1/2 bg-black/70 px-3 py-1 rounded-full text-xs text-gold-400 font-mono">
+              <span id="modal-img-idx-${p.id}">${currentIdx + 1}</span>/${imgs.length}
+            </div>` : ''}
+        </div>
+        <!-- QR Code & Link sharing -->
+        <div class="glass-card p-4 rounded-xl flex items-center gap-4 border border-gold-500/20">
+          <img src="${qrCodeUrl}" alt="Product QR Code" class="w-20 h-20 rounded-lg bg-white p-1">
+          <div class="space-y-1 flex-1 min-w-0">
+            <span class="text-[10px] uppercase tracking-widest text-gold-400 font-semibold block">Scan for Direct Page</span>
+            <p class="text-[11px] text-gray-300 truncate font-mono">${productUrl}</p>
+            <button onclick="navigator.clipboard.writeText('${productUrl}'); showToast('Product link copied to clipboard!');" class="text-[11px] text-gold-400 hover:underline font-bold inline-flex items-center gap-1">
+              <i class="fa-solid fa-copy"></i> Copy Link
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Details & Options -->
+      <div class="space-y-6 flex flex-col justify-between">
+        <div class="space-y-4">
+          <div>
+            <span class="text-xs uppercase tracking-widest text-gold-400 font-semibold">${p.category} / ${p.catalog || 'General'}</span>
+            <h2 class="font-serif text-2xl sm:text-3xl font-bold text-white mt-1">${p.name}</h2>
+            <div class="flex items-center gap-2 mt-2">
+              <div class="flex text-amber-400 text-xs">
+                ${reviews.length > 0 ? '<i class="fa-solid fa-star"></i>'.repeat(Math.round(avgRating)) : '<span class="text-gray-500">No ratings</span>'}
+              </div>
+              <span class="text-xs text-gray-400">(${reviews.length} reviews • ${avgRating})</span>
+            </div>
+          </div>
+          
+          <p class="font-serif text-2xl font-bold text-gold-400">Rs. ${p.price.toLocaleString()}</p>
+          <p class="text-gray-300 text-xs leading-relaxed">${p.description}</p>
+
+          <!-- Color Selection -->
+          <div class="space-y-2">
+            <label class="block text-xs font-semibold text-gray-300 uppercase tracking-wider">Select Color</label>
+            <div id="modal-color-options" class="flex flex-wrap gap-2">
+              ${colors.map((c, i) => `
+                <button type="button" onclick="selectModalOption('color', '${c}')" class="color-btn px-3.5 py-2 rounded-xl text-xs font-semibold border ${i === 0 ? 'bg-gold-500 text-black border-gold-400 font-bold' : 'glass-card text-gray-300 border-gold-500/30'}">
+                  ${c}
+                </button>`).join('')}
+            </div>
+            <input type="hidden" id="selected-prod-color" value="${colors[0]}">
+          </div>
+
+          <!-- Size Selection -->
+          <div class="space-y-2">
+            <label class="block text-xs font-semibold text-gray-300 uppercase tracking-wider">Select Size</label>
+            <div id="modal-size-options" class="flex flex-wrap gap-2">
+              ${sizes.map((s, i) => `
+                <button type="button" onclick="selectModalOption('size', '${s}')" class="size-btn px-3.5 py-2 rounded-xl text-xs font-semibold border ${i === 0 ? 'bg-gold-500 text-black border-gold-400 font-bold' : 'glass-card text-gray-300 border-gold-500/30'}">
+                  ${s}
+                </button>`).join('')}
+            </div>
+            <input type="hidden" id="selected-prod-size" value="${sizes[0]}">
+          </div>
+        </div>
+
+        <div class="space-y-3 pt-4 border-t border-gold-500/20">
+          <button onclick="addCurrentProductToCart('${p.id}')" class="w-full py-3.5 rounded-xl bg-gold-500 hover:bg-gold-400 text-black font-bold text-xs uppercase tracking-widest shadow-lg transition-all">
+            Add to Shopping Bag
+          </button>
+          <button onclick="openWhatsAppDirectOrder('${p.id}')" class="w-full py-3.5 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs uppercase tracking-widest shadow-lg transition-all flex items-center justify-center gap-2">
+            <i class="fa-brands fa-whatsapp text-base"></i> Order Directly via WhatsApp
+          </button>
+        </div>
+      </div>
     </div>
-    <div class="p-8 flex flex-col justify-between space-y-6">
-      <div class="space-y-3">
-        <span class="text-xs uppercase tracking-widest text-gold-400 font-semibold">${p.category} / ${p.catalog || 'General'}</span>
-        <h2 class="font-serif text-2xl font-bold text-white">${p.name}</h2>
-        <p class="font-serif text-xl font-bold text-gold-400">Rs. ${p.price.toLocaleString()}</p>
-        <p class="text-gray-300 text-xs leading-relaxed">${p.description}</p>
+
+    <!-- Product Reviews Section -->
+    <div class="pt-8 border-t border-gold-500/20 space-y-6">
+      <div class="flex items-center justify-between">
+        <h3 class="font-serif text-xl font-bold text-white">Client Reviews & Ratings</h3>
+        <span class="text-xs text-gray-400">Share your experience with this masterpiece</span>
       </div>
-      <div class="space-y-3 pt-4 border-t border-gold-500/20">
-        <button onclick="addToCart('${p.id}'); closeProductModal();" class="w-full py-3.5 rounded-xl bg-gold-500 hover:bg-gold-400 text-black font-bold text-xs uppercase tracking-widest shadow-lg transition-all">
-          Add to Shopping Bag
+
+      <!-- Existing Reviews List -->
+      <div class="space-y-3" id="product-reviews-list">
+        ${reviews.length === 0 ? '<p class="text-xs text-gray-400 italic">No reviews submitted for this product yet. Be the first to share your thoughts!</p>' :
+          reviews.map(r => `
+            <div class="glass-card p-4 rounded-xl border border-gold-500/20 space-y-1.5">
+              <div class="flex items-center justify-between">
+                <span class="text-xs font-bold text-white">${r.name}</span>
+                <span class="text-[10px] text-gray-400 font-mono">${r.date}</span>
+              </div>
+              <div class="flex text-amber-400 text-xs">
+                ${'<i class="fa-solid fa-star"></i>'.repeat(r.rating)}
+              </div>
+              <p class="text-xs text-gray-300">${r.comment}</p>
+            </div>
+          `).join('')}
+      </div>
+
+      <!-- Add Review Form -->
+      <div class="glass-panel p-6 rounded-2xl border border-gold-500/30 space-y-4">
+        <h4 class="font-serif text-sm font-bold text-gold-400">Submit Your Review</h4>
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <div>
+            <label class="block text-xs font-medium text-gray-300 mb-1">Your Name *</label>
+            <input type="text" id="review-author" class="w-full bg-onyx border border-gold-500/30 rounded-xl p-3 text-xs text-white focus:outline-none focus:border-gold-400" placeholder="e.g. Zainab Malik">
+          </div>
+          <div>
+            <label class="block text-xs font-medium text-gray-300 mb-1">Rating (1 to 5 Stars) *</label>
+            <select id="review-rating" class="w-full bg-onyx border border-gold-500/30 rounded-xl p-3 text-xs text-white focus:outline-none focus:border-gold-400">
+              <option value="5">5 Stars - Exceptional Masterpiece</option>
+              <option value="4">4 Stars - Excellent</option>
+              <option value="3">3 Stars - Good</option>
+              <option value="2">2 Stars - Fair</option>
+              <option value="1">1 Star - Unsatisfactory</option>
+            </select>
+          </div>
+        </div>
+        <div>
+          <label class="block text-xs font-medium text-gray-300 mb-1">Written Review *</label>
+          <textarea id="review-comment" rows="3" class="w-full bg-onyx border border-gold-500/30 rounded-xl p-3 text-xs text-white focus:outline-none focus:border-gold-400" placeholder="Describe the quality, fit, finish, or elegance..."></textarea>
+        </div>
+        <button onclick="submitProductReview('${p.id}')" class="px-6 py-3 rounded-xl bg-gold-500 hover:bg-gold-400 text-black font-bold text-xs uppercase tracking-wider shadow-lg transition-all">
+          Submit Review
         </button>
       </div>
-    </div>`;
+    </div>
+  `;
   modal.classList.remove('hidden');
+}
+
+function selectModalOption(type, val) {
+  if (type === 'color') {
+    document.getElementById('selected-prod-color').value = val;
+    document.querySelectorAll('.color-btn').forEach(btn => {
+      if (btn.innerText.trim() === val) {
+        btn.className = "color-btn px-3.5 py-2 rounded-xl text-xs font-semibold border bg-gold-500 text-black border-gold-400 font-bold";
+      } else {
+        btn.className = "color-btn px-3.5 py-2 rounded-xl text-xs font-semibold border glass-card text-gray-300 border-gold-500/30";
+      }
+    });
+  } else if (type === 'size') {
+    document.getElementById('selected-prod-size').value = val;
+    document.querySelectorAll('.size-btn').forEach(btn => {
+      if (btn.innerText.trim() === val) {
+        btn.className = "size-btn px-3.5 py-2 rounded-xl text-xs font-semibold border bg-gold-500 text-black border-gold-400 font-bold";
+      } else {
+        btn.className = "size-btn px-3.5 py-2 rounded-xl text-xs font-semibold border glass-card text-gray-300 border-gold-500/30";
+      }
+    });
+  }
 }
 
 function closeProductModal() {
   document.getElementById('product-modal').classList.add('hidden');
 }
 
-function addToCart(id) {
+function addCurrentProductToCart(id) {
   const p = state.products.find(item => item.id === id);
   if (!p) return;
-  const existing = state.cart.find(item => item.id === id);
+  const color = document.getElementById('selected-prod-color').value || 'Standard';
+  const size = document.getElementById('selected-prod-size').value || 'Standard';
+  const imgs = getProductImages(p);
+  
+  const existing = state.cart.find(item => item.id === id && item.color === color && item.size === size);
   if (existing) {
     existing.qty += 1;
   } else {
-    const imgs = getProductImages(p);
-    state.cart.push({...p, image: imgs[0], qty: 1});
+    state.cart.push({
+      id: p.id,
+      name: p.name,
+      price: p.price,
+      image: imgs[0],
+      color,
+      size,
+      qty: 1
+    });
   }
   saveToStorage('cart', state.cart);
   updateCartUI();
-  showToast(`${p.name} added to bag.`);
+  closeProductModal();
+  showToast(`${p.name} (${color}, ${size}) added to bag.`);
+}
+
+function openWhatsAppDirectOrder(id) {
+  const p = state.products.find(item => item.id === id);
+  if (!p) return;
+  const color = document.getElementById('selected-prod-color').value || 'Standard';
+  const size = document.getElementById('selected-prod-size').value || 'Standard';
+  const imgs = getProductImages(p);
+
+  const name = prompt("Please enter your Full Name:");
+  if (!name) return;
+  const phone = prompt("Please enter your Phone Number (03XXXXXXXXX):");
+  if (!phone) return;
+  const address = prompt("Please enter your Delivery Address:");
+  if (!address) return;
+  const extraMsg = prompt("Any extra notes or message (optional)?") || "None";
+
+  const waNum = (state.settings.whatsappNumber || '+923254090601').replace(/[^0-9]/g, '');
+  const productUrl = window.location.origin + window.location.pathname + '#product-' + p.id;
+
+  const orderId = 'AVL-' + Math.floor(10000 + Math.random() * 90000);
+  const newOrder = {
+    orderId,
+    name,
+    phone,
+    address,
+    courier: 'TCS Express',
+    payment: 'Direct WhatsApp Order',
+    items: [{ name: p.name, price: p.price, color, size, qty: 1, image: imgs[0] }],
+    total: p.price,
+    status: 'Processing',
+    trackingNumber: 'TRK-' + Math.floor(10000000 + Math.random() * 90000000),
+    date: new Date().toLocaleDateString()
+  };
+  state.orders.unshift(newOrder);
+  saveToStorage('orders', state.orders);
+
+  const msg = `👑 *NEW AVELON DIRECT ORDER* 👑\n\n` +
+    `🆔 *Order ID:* ${orderId}\n` +
+    `👤 *Client Name:* ${name}\n` +
+    `📞 *Phone:* ${phone}\n` +
+    `📍 *Address:* ${address}\n\n` +
+    `🛍️ *Product:* ${p.name}\n` +
+    `🎨 *Color:* ${color}\n` +
+    `📐 *Size:* ${size}\n` +
+    `🔢 *Quantity:* 1\n` +
+    `💰 *Price:* Rs. ${p.price.toLocaleString()}\n` +
+    `💬 *Extra Notes:* ${extraMsg}\n\n` +
+    `🖼️ *Product Image / Link:* ${imgs[0] || productUrl}\n` +
+    `🔗 *Page Link:* ${productUrl}`;
+
+  window.open(`https://wa.me/${waNum}?text=${encodeURIComponent(msg)}`, '_blank');
+  closeProductModal();
+  showToast(`Order ${orderId} sent to WhatsApp!`);
+}
+
+function submitProductReview(id) {
+  const p = state.products.find(item => item.id === id);
+  if (!p) return;
+  const author = document.getElementById('review-author').value.trim();
+  const rating = parseInt(document.getElementById('review-rating').value);
+  const comment = document.getElementById('review-comment').value.trim();
+
+  if (!author || !comment) {
+    showToast('Please fill in your name and review comment.');
+    return;
+  }
+
+  if (!p.reviews) p.reviews = [];
+  p.reviews.unshift({
+    name: author,
+    rating,
+    comment,
+    date: new Date().toISOString().split('T')[0]
+  });
+
+  saveToStorage('products', state.products);
+  showToast('Review submitted successfully!');
+  openProductModal(id);
 }
 
 function updateCartUI() {
@@ -1102,6 +1378,7 @@ function updateCartUI() {
         <img src="${item.image}" alt="${item.name}" class="w-14 h-14 object-cover rounded-lg">
         <div class="flex-1 min-w-0">
           <h4 class="font-serif text-xs font-bold text-white truncate">${item.name}</h4>
+          <p class="text-[10px] text-gold-400 font-semibold">${item.color} • ${item.size}</p>
           <p class="text-[11px] text-gold-400 font-semibold mt-0.5">Rs. ${item.price.toLocaleString()} x ${item.qty}</p>
         </div>
         <div class="flex items-center gap-2">
@@ -1150,10 +1427,12 @@ function handleCheckoutSubmit(e) {
   const name = document.getElementById('chk-name').value.trim();
   const phone = document.getElementById('chk-phone').value.trim();
   const address = document.getElementById('chk-address').value.trim();
+  const extraMsg = document.getElementById('chk-message').value.trim() || 'None';
   const courier = document.getElementById('chk-courier').value;
   const payment = document.getElementById('chk-payment').value;
   const orderId = 'AVL-' + Math.floor(10000 + Math.random() * 90000);
   const subtotal = state.cart.reduce((sum, item) => sum + (item.price * item.qty), 0);
+  
   const newOrder = {
     orderId,
     name,
@@ -1169,6 +1448,24 @@ function handleCheckoutSubmit(e) {
   };
   state.orders.unshift(newOrder);
   saveToStorage('orders', state.orders);
+
+  // Format WhatsApp Message
+  let itemsSummary = state.cart.map(i => `• ${i.name} (${i.color}, ${i.size}) x${i.qty} - Rs. ${(i.price * i.qty).toLocaleString()} [Image: ${i.image}]`).join('\n');
+  const waNum = (state.settings.whatsappNumber || '+923254090601').replace(/[^0-9]/g, '');
+
+  const waMsg = `👑 *NEW AVELON STORE ORDER* 👑\n\n` +
+    `🆔 *Order ID:* ${orderId}\n` +
+    `👤 *Client:* ${name}\n` +
+    `📞 *Phone:* ${phone}\n` +
+    `📍 *Address:* ${address}\n` +
+    `🚚 *Courier:* ${courier}\n` +
+    `💳 *Payment:* ${payment}\n` +
+    `💬 *Notes:* ${extraMsg}\n\n` +
+    `🛍️ *Items Ordered:*\n${itemsSummary}\n\n` +
+    `💰 *Total Amount:* Rs. ${subtotal.toLocaleString()}`;
+
+  window.open(`https://wa.me/${waNum}?text=${encodeURIComponent(waMsg)}`, '_blank');
+
   state.cart = [];
   saveToStorage('cart', state.cart);
   updateCartUI();
@@ -1375,6 +1672,8 @@ function openAddProductModal() {
   document.getElementById('edit-prod-id').value = '';
   document.getElementById('edit-prod-name').value = '';
   document.getElementById('edit-prod-price').value = '';
+  document.getElementById('edit-prod-colors').value = 'Black, Gold, Navy';
+  document.getElementById('edit-prod-sizes').value = 'S, M, L, XL';
   document.getElementById('edit-prod-imgs').value = '';
   document.getElementById('edit-prod-file-input').value = '';
   tempUploadedProductImgs = [];
@@ -1392,6 +1691,8 @@ function openEditProductModal(idx) {
   document.getElementById('edit-prod-cat').value = p.category;
   populateCatalogSelectForProduct(p.catalog);
   document.getElementById('edit-prod-price').value = p.price;
+  document.getElementById('edit-prod-colors').value = p.colors ? p.colors.join(', ') : 'Black, Gold';
+  document.getElementById('edit-prod-sizes').value = p.sizes ? p.sizes.join(', ') : 'S, M, L';
   const imgs = getProductImages(p);
   tempUploadedProductImgs = [...imgs];
   document.getElementById('edit-prod-imgs').value = JSON.stringify(tempUploadedProductImgs);
@@ -1418,7 +1719,10 @@ function saveProductData() {
   const category = document.getElementById('edit-prod-cat').value;
   const catalog = document.getElementById('edit-prod-catalog-select').value;
   const price = parseFloat(document.getElementById('edit-prod-price').value) || 0;
+  const colorsRaw = document.getElementById('edit-prod-colors').value.trim();
+  const sizesRaw = document.getElementById('edit-prod-sizes').value.trim();
   const description = document.getElementById('edit-prod-desc').value.trim();
+  
   if (!name || !price) {
     showToast('Please provide product name and price.');
     return;
@@ -1427,6 +1731,9 @@ function saveProductData() {
   if (images.length === 0) {
     images = ['https://placehold.co/600x750/0a0a0a/d4af37?text=AVELON'];
   }
+  const colors = colorsRaw ? colorsRaw.split(',').map(s => s.trim()).filter(Boolean) : ['Standard'];
+  const sizes = sizesRaw ? sizesRaw.split(',').map(s => s.trim()).filter(Boolean) : ['Standard'];
+
   if (id) {
     const p = state.products.find(item => item.id === id);
     if (p) {
@@ -1434,6 +1741,8 @@ function saveProductData() {
       p.category = category;
       p.catalog = catalog;
       p.price = price;
+      p.colors = colors;
+      p.sizes = sizes;
       p.images = images;
       p.description = description;
     }
@@ -1444,8 +1753,11 @@ function saveProductData() {
       category,
       catalog,
       price,
+      colors,
+      sizes,
       images,
-      description
+      description,
+      reviews: []
     };
     state.products.push(newP);
   }
