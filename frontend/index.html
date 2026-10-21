@@ -584,8 +584,12 @@ Proceed to Secure Checkout
 <textarea id="edit-col-desc" rows="2" class="w-full bg-onyx border border-gold-500/30 rounded-xl p-3 text-xs text-white focus:outline-none focus:border-gold-400" placeholder="Collection description..."></textarea>
 </div>
 <div>
-<label class="block text-xs font-medium text-gray-300 mb-1">Image URL</label>
+<label class="block text-xs font-medium text-gray-300 mb-1">Image URL or File Upload *</label>
+<div class="space-y-2">
 <input type="url" id="edit-col-image" class="w-full bg-onyx border border-gold-500/30 rounded-xl p-3 text-xs text-white focus:outline-none focus:border-gold-400 font-mono" placeholder="https://images.unsplash.com/...">
+<input type="file" id="edit-col-file" accept="image/*" onchange="handleCollectionFileUpload(event)" class="w-full bg-onyx border border-gold-500/30 rounded-xl p-2.5 text-xs text-white focus:outline-none file:mr-4 file:py-2 file:px-4 file:rounded-xl file:border-0 file:text-xs file:font-semibold file:bg-gold-500 file:text-black hover:file:bg-gold-400">
+<div id="edit-col-preview" class="mt-2"></div>
+</div>
 </div>
 <div class="flex gap-3 pt-2">
 <button onclick="closeCollectionEditModal()" class="flex-1 py-2.5 rounded-xl glass-card text-xs text-gray-300 uppercase font-bold">Cancel</button>
@@ -606,6 +610,14 @@ Proceed to Secure Checkout
 <label class="block text-xs font-medium text-gray-300 mb-1">Catalog Name *</label>
 <input type="text" id="edit-cat-name" class="w-full bg-onyx border border-gold-500/30 rounded-xl p-3 text-xs text-white focus:outline-none focus:border-gold-400" placeholder="e.g. Strap Watches">
 </div>
+<div>
+<label class="block text-xs font-medium text-gray-300 mb-1">Catalog Image (URL or File Upload)</label>
+<div class="space-y-2">
+<input type="url" id="edit-cat-image" class="w-full bg-onyx border border-gold-500/30 rounded-xl p-3 text-xs text-white focus:outline-none focus:border-gold-400 font-mono" placeholder="https://images.unsplash.com/...">
+<input type="file" id="edit-cat-file" accept="image/*" onchange="handleCatalogFileUpload(event)" class="w-full bg-onyx border border-gold-500/30 rounded-xl p-2.5 text-xs text-white focus:outline-none file:mr-4 file:py-2 file:px-4 file:rounded-xl file:border-0 file:text-xs file:font-semibold file:bg-gold-500 file:text-black hover:file:bg-gold-400">
+<div id="edit-cat-preview" class="mt-2"></div>
+</div>
+</div>
 <div class="flex gap-3 pt-2">
 <button onclick="closeCatalogEditModal()" class="flex-1 py-2.5 rounded-xl glass-card text-xs text-gray-300 uppercase font-bold">Cancel</button>
 <button onclick="saveCatalogData()" class="flex-1 py-2.5 rounded-xl bg-gold-500 text-black text-xs uppercase font-bold">Save Catalog</button>
@@ -614,7 +626,7 @@ Proceed to Secure Checkout
 </div>
 <!-- Product Add/Edit Modal (Listings) -->
 <div id="product-edit-modal" class="fixed inset-0 z-50 hidden flex items-center justify-center p-4 bg-black/80 backdrop-blur-md">
-<div class="glass-panel w-full max-w-lg rounded-2xl p-6 border border-gold-500/40 space-y-4 max-h-[90vh] overflow-y-auto">
+<div class="glass-panel w-full max-w-2xl rounded-2xl p-6 border border-gold-500/40 space-y-4 max-h-[90vh] overflow-y-auto">
 <h3 id="modal-product-title" class="font-serif text-lg font-bold text-gold-400">Add New Listing</h3>
 <input type="hidden" id="edit-prod-id">
 <div>
@@ -635,18 +647,20 @@ Proceed to Secure Checkout
 <label class="block text-xs font-medium text-gray-300 mb-1">Price (PKR) *</label>
 <input type="number" id="edit-prod-price" class="w-full bg-onyx border border-gold-500/30 rounded-xl p-3 text-xs text-white focus:outline-none focus:border-gold-400 font-mono">
 </div>
-<div class="grid grid-cols-2 gap-4">
-<div>
-<label class="block text-xs font-medium text-gray-300 mb-1">Available Colors (comma separated)</label>
-<input type="text" id="edit-prod-colors" class="w-full bg-onyx border border-gold-500/30 rounded-xl p-3 text-xs text-white focus:outline-none focus:border-gold-400" placeholder="Black, Gold, Navy">
-</div>
 <div>
 <label class="block text-xs font-medium text-gray-300 mb-1">Available Sizes (comma separated)</label>
-<input type="text" id="edit-prod-sizes" class="w-full bg-onyx border border-gold-500/30 rounded-xl p-3 text-xs text-white focus:outline-none focus:border-gold-400" placeholder="S, M, L, XL">
+<input type="text" id="edit-prod-sizes" class="w-full bg-onyx border border-gold-500/30 rounded-xl p-3 text-xs text-white focus:outline-none focus:border-gold-400" placeholder="S, M, L, XL or Standard">
 </div>
+<!-- Color Swatches & Shade Picker Configuration -->
+<div class="space-y-3 p-4 rounded-xl border border-gold-500/30 bg-charcoal/40">
+<div class="flex items-center justify-between">
+<label class="text-xs font-semibold text-gold-400 uppercase tracking-wider">Color Swatches & Matching Images</label>
+<button type="button" onclick="addAdminColorRow()" class="px-3 py-1 rounded-lg bg-gold-500/20 border border-gold-500/40 text-gold-400 hover:bg-gold-500 hover:text-black text-xs font-bold transition-all">+ Add Color Swatch</button>
+</div>
+<div id="admin-color-rows-container" class="space-y-2"></div>
 </div>
 <div>
-<label class="block text-xs font-medium text-gray-300 mb-1">Product Images (Upload from Device File Picker)</label>
+<label class="block text-xs font-medium text-gray-300 mb-1">General Product Images (Upload / URL)</label>
 <input type="file" id="edit-prod-file-input" multiple accept="image/*" onchange="handleProductImageUpload(event)" class="w-full bg-onyx border border-gold-500/30 rounded-xl p-2.5 text-xs text-white focus:outline-none file:mr-4 file:py-2 file:px-4 file:rounded-xl file:border-0 file:text-xs file:font-semibold file:bg-gold-500 file:text-black hover:file:bg-gold-400">
 <input type="hidden" id="edit-prod-imgs">
 <div id="edit-prod-preview" class="flex flex-wrap gap-2 mt-2"></div>
@@ -694,13 +708,13 @@ const DEFAULT_COLLECTIONS = [
 ];
 
 const DEFAULT_CATALOGS = [
-  { id: 'cat-1', collection: 'Suits & Blazers', name: 'Bespoke & Tuxedos' },
-  { id: 'cat-2', collection: 'Suits & Blazers', name: 'Overcoats & Cashmere' },
-  { id: 'cat-3', collection: 'Watches', name: 'Strap Watches' },
-  { id: 'cat-4', collection: 'Watches', name: 'Chain Watches' },
-  { id: 'cat-5', collection: 'Leather Goods', name: 'Briefcases & Luggage' },
-  { id: 'cat-6', collection: 'Leather Goods', name: 'Wallets & Small Goods' },
-  { id: 'cat-7', collection: 'Footwear', name: 'Dress Shoes & Oxfords' }
+  { id: 'cat-1', collection: 'Suits & Blazers', name: 'Bespoke & Tuxedos', image: 'https://images.unsplash.com/photo-1507679799987-c73779587ccf?q=80&w=800&auto=format&fit=crop' },
+  { id: 'cat-2', collection: 'Suits & Blazers', name: 'Overcoats & Cashmere', image: 'https://images.unsplash.com/photo-1544441893-675973e31985?q=80&w=800&auto=format&fit=crop' },
+  { id: 'cat-3', collection: 'Watches', name: 'Strap Watches', image: 'https://images.unsplash.com/photo-1522335789203-aabd1fc54bc9?q=80&w=800&auto=format&fit=crop' },
+  { id: 'cat-4', collection: 'Watches', name: 'Chain Watches', image: 'https://images.unsplash.com/photo-1524592094714-0f0654e20314?q=80&w=800&auto=format&fit=crop' },
+  { id: 'cat-5', collection: 'Leather Goods', name: 'Briefcases & Luggage', image: 'https://images.unsplash.com/photo-1553062407-98eeb64c6a62?q=80&w=800&auto=format&fit=crop' },
+  { id: 'cat-6', collection: 'Leather Goods', name: 'Wallets & Small Goods', image: 'https://images.unsplash.com/photo-1627123424574-724758594e93?q=80&w=800&auto=format&fit=crop' },
+  { id: 'cat-7', collection: 'Footwear', name: 'Dress Shoes & Oxfords', image: 'https://images.unsplash.com/photo-1614252235316-8c857d38b5f4?q=80&w=800&auto=format&fit=crop' }
 ];
 
 const DEFAULT_PRODUCTS = [
@@ -711,7 +725,10 @@ const DEFAULT_PRODUCTS = [
     category: 'Suits & Blazers',
     catalog: 'Bespoke & Tuxedos',
     price: 185000,
-    colors: ['Jet Black', 'Midnight Navy', 'Charcoal Grey'],
+    colors: [
+      { name: 'Jet Black', hex: '#111111', image: 'https://images.unsplash.com/photo-1594938298603-c8148c4dae35?q=80&w=800&auto=format&fit=crop' },
+      { name: 'Midnight Navy', hex: '#0f172a', image: 'https://images.unsplash.com/photo-1507679799987-c73779587ccf?q=80&w=800&auto=format&fit=crop' }
+    ],
     sizes: ['36R', '38R', '40R', '42R', '44R'],
     images: [
       'https://images.unsplash.com/photo-1594938298603-c8148c4dae35?q=80&w=800&auto=format&fit=crop',
@@ -729,7 +746,10 @@ const DEFAULT_PRODUCTS = [
     category: 'Watches',
     catalog: 'Chain Watches',
     price: 340000,
-    colors: ['Yellow Gold', 'Rose Gold', 'Platinum'],
+    colors: [
+      { name: 'Yellow Gold', hex: '#d4af37', image: 'https://images.unsplash.com/photo-1524592094714-0f0654e20314?q=80&w=800&auto=format&fit=crop' },
+      { name: 'Rose Gold', hex: '#b76e79', image: 'https://images.unsplash.com/photo-1522335789203-aabd1fc54bc9?q=80&w=800&auto=format&fit=crop' }
+    ],
     sizes: ['Standard 41mm'],
     images: [
       'https://images.unsplash.com/photo-1524592094714-0f0654e20314?q=80&w=800&auto=format&fit=crop'
@@ -737,38 +757,6 @@ const DEFAULT_PRODUCTS = [
     description: 'Automatic mechanical movement housed in an 18k gold-plated case.',
     reviews: [
       { name: 'Hamza Khan', rating: 5, comment: 'Stunning craftsmanship. Gets compliments everywhere.', date: '2026-07-01' }
-    ]
-  },
-  {
-    id: 'prod-3',
-    name: 'Firenze Full-Grain Briefcase',
-    collection: 'Leather Goods',
-    category: 'Leather Goods',
-    catalog: 'Briefcases & Luggage',
-    price: 95000,
-    colors: ['Cognac Brown', 'Dark Espresso', 'Black'],
-    sizes: ['One Size'],
-    images: [
-      'https://images.unsplash.com/photo-1553062407-98eeb64c6a62?q=80&w=800&auto=format&fit=crop'
-    ],
-    description: 'Vegetable-tanned Tuscan leather with solid brass hardware.',
-    reviews: []
-  },
-  {
-    id: 'prod-4',
-    name: 'Venetian Oxford Dress Shoes',
-    collection: 'Footwear',
-    category: 'Footwear',
-    catalog: 'Dress Shoes & Oxfords',
-    price: 115000,
-    colors: ['Burgundy', 'Black', 'Tan'],
-    sizes: ['US 8 / EU 41', 'US 9 / EU 42', 'US 10 / EU 43', 'US 11 / EU 44'],
-    images: [
-      'https://images.unsplash.com/photo-1614252235316-8c857d38b5f4?q=80&w=800&auto=format&fit=crop'
-    ],
-    description: 'Hand-patinated calfskin leather crafted by master shoemakers.',
-    reviews: [
-      { name: 'Bilal Riaz', rating: 4, comment: 'Extremely comfortable and premium look.', date: '2026-08-05' }
     ]
   }
 ];
@@ -804,6 +792,7 @@ let state = {
 
 let activeImageIndices = {};
 let tempUploadedProductImgs = [];
+let adminColorVariants = [];
 
 window.addEventListener('DOMContentLoaded', () => {
   initCursorGlow();
@@ -877,6 +866,28 @@ function getProductImages(p) {
   if (p.images && Array.isArray(p.images) && p.images.length > 0) return p.images;
   if (p.image) return [p.image];
   return ['https://placehold.co/600x750/0a0a0a/d4af37?text=AVELON'];
+}
+
+function handleCollectionFileUpload(event) {
+  const file = event.target.files[0];
+  if (!file) return;
+  const reader = new FileReader();
+  reader.onload = function(e) {
+    document.getElementById('edit-col-image').value = e.target.result;
+    document.getElementById('edit-col-preview').innerHTML = `<img src="${e.target.result}" class="w-16 h-16 object-cover rounded-lg border border-gold-500">`;
+  };
+  reader.readAsDataURL(file);
+}
+
+function handleCatalogFileUpload(event) {
+  const file = event.target.files[0];
+  if (!file) return;
+  const reader = new FileReader();
+  reader.onload = function(e) {
+    document.getElementById('edit-cat-image').value = e.target.result;
+    document.getElementById('edit-cat-preview').innerHTML = `<img src="${e.target.result}" class="w-16 h-16 object-cover rounded-lg border border-gold-500">`;
+  };
+  reader.readAsDataURL(file);
 }
 
 function handleProductImageUpload(event) {
@@ -997,7 +1008,6 @@ function renderShopHierarchy() {
       <span>/</span>
       <span class="text-gold-400 font-semibold">${state.selectedCollection}</span>`;
     const matchingCatalogsRaw = state.catalogs.filter(c => c.collection === state.selectedCollection);
-    // Deduplicate catalogs by name to prevent duplicate catalog display
     const matchingCatalogs = [];
     const seenCatNames = new Set();
     for (const cat of matchingCatalogsRaw) {
@@ -1012,12 +1022,13 @@ function renderShopHierarchy() {
     }
     container.innerHTML = matchingCatalogs.map(cat => {
       const sampleProd = state.products.find(p => p.catalog === cat.name && (p.collection === state.selectedCollection || p.category === state.selectedCollection));
-      const sampleImgs = sampleProd ? getProductImages(sampleProd) : ['https://images.unsplash.com/photo-1441986300917-64674bd600d8?q=80&w=800&auto=format&fit=crop'];
+      const fallbackImg = sampleProd ? getProductImages(sampleProd)[0] : 'https://images.unsplash.com/photo-1441986300917-64674bd600d8?q=80&w=800&auto=format&fit=crop';
+      const catalogImg = cat.image && cat.image.trim() !== '' ? cat.image : fallbackImg;
       const prodCount = state.products.filter(p => p.catalog === cat.name && (p.collection === state.selectedCollection || p.category === state.selectedCollection)).length;
       return `
         <div class="glass-card rounded-2xl overflow-hidden flex flex-col justify-between group cursor-pointer" onclick="selectCatalog('${cat.name}')">
           <div class="relative overflow-hidden aspect-[4/5] bg-onyx">
-            <img src="${sampleImgs[0]}" alt="${cat.name}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+            <img src="${catalogImg}" alt="${cat.name}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
             <span class="absolute top-3 left-3 bg-onyx/80 backdrop-blur-md text-gold-400 text-[10px] font-semibold px-2.5 py-1 rounded-lg border border-gold-500/30">${prodCount} Listings</span>
           </div>
           <div class="p-6 space-y-3">
@@ -1115,7 +1126,8 @@ function openProductModal(id) {
   const currentImg = imgs[currentIdx];
   const hasMultiple = imgs.length > 1;
 
-  const colors = p.colors && p.colors.length > 0 ? p.colors : ['Standard'];
+  // Normalize colors format (supports both string array and object array with hex & image)
+  const colors = (p.colors && p.colors.length > 0) ? p.colors.map(c => typeof c === 'string' ? { name: c, hex: '#d4af37', image: '' } : c) : [{ name: 'Standard', hex: '#d4af37', image: '' }];
   const sizes = p.sizes && p.sizes.length > 0 ? p.sizes : ['Standard Size'];
 
   const reviews = p.reviews || [];
@@ -1171,16 +1183,17 @@ function openProductModal(id) {
           <p class="font-serif text-2xl font-bold text-gold-400">Rs. ${p.price.toLocaleString()}</p>
           <p class="text-gray-300 text-xs leading-relaxed">${p.description}</p>
 
-          <!-- Color Selection -->
+          <!-- Color Swatches with Shade Picker & Matching Image Update -->
           <div class="space-y-2">
-            <label class="block text-xs font-semibold text-gray-300 uppercase tracking-wider">Select Color</label>
-            <div id="modal-color-options" class="flex flex-wrap gap-2">
+            <label class="block text-xs font-semibold text-gray-300 uppercase tracking-wider">Select Color Swatch</label>
+            <div id="modal-color-options" class="flex flex-wrap gap-2.5">
               ${colors.map((c, i) => `
-                <button type="button" onclick="selectModalOption('color', '${c}')" class="color-btn px-3.5 py-2 rounded-xl text-xs font-semibold border ${i === 0 ? 'bg-gold-500 text-black border-gold-400 font-bold' : 'glass-card text-gray-300 border-gold-500/30'}">
-                  ${c}
+                <button type="button" onclick="selectModalColor('${c.name}', '${c.image || ''}', '${p.id}', this)" class="color-swatch-btn px-3.5 py-2 rounded-xl text-xs font-semibold border flex items-center gap-2 ${i === 0 ? 'bg-gold-500 text-black border-gold-400 font-bold' : 'glass-card text-gray-300 border-gold-500/30'}">
+                  <span class="w-4 h-4 rounded-full border border-white/40 shadow-sm" style="background-color: ${c.hex || '#d4af37'};"></span>
+                  ${c.name}
                 </button>`).join('')}
             </div>
-            <input type="hidden" id="selected-prod-color" value="${colors[0]}">
+            <input type="hidden" id="selected-prod-color" value="${colors[0].name}">
           </div>
 
           <!-- Size Selection -->
@@ -1263,17 +1276,23 @@ function openProductModal(id) {
   modal.classList.remove('hidden');
 }
 
+function selectModalColor(colorName, colorImgUrl, prodId, btnElement) {
+  document.getElementById('selected-prod-color').value = colorName;
+  document.querySelectorAll('.color-swatch-btn').forEach(btn => {
+    btn.className = "color-swatch-btn px-3.5 py-2 rounded-xl text-xs font-semibold border flex items-center gap-2 glass-card text-gray-300 border-gold-500/30";
+  });
+  if (btnElement) {
+    btnElement.className = "color-swatch-btn px-3.5 py-2 rounded-xl text-xs font-semibold border flex items-center gap-2 bg-gold-500 text-black border-gold-400 font-bold";
+  }
+  if (colorImgUrl && colorImgUrl.trim() !== '') {
+    const modalImgEl = document.getElementById(`modal-img-${prodId}`);
+    if (modalImgEl) modalImgEl.src = colorImgUrl;
+    showToast(`Switched image for ${colorName}`);
+  }
+}
+
 function selectModalOption(type, val) {
-  if (type === 'color') {
-    document.getElementById('selected-prod-color').value = val;
-    document.querySelectorAll('.color-btn').forEach(btn => {
-      if (btn.innerText.trim() === val) {
-        btn.className = "color-btn px-3.5 py-2 rounded-xl text-xs font-semibold border bg-gold-500 text-black border-gold-400 font-bold";
-      } else {
-        btn.className = "color-btn px-3.5 py-2 rounded-xl text-xs font-semibold border glass-card text-gray-300 border-gold-500/30";
-      }
-    });
-  } else if (type === 'size') {
+  if (type === 'size') {
     document.getElementById('selected-prod-size').value = val;
     document.querySelectorAll('.size-btn').forEach(btn => {
       if (btn.innerText.trim() === val) {
@@ -1707,6 +1726,8 @@ function openAddCollectionModal() {
   document.getElementById('edit-col-name').value = '';
   document.getElementById('edit-col-desc').value = '';
   document.getElementById('edit-col-image').value = '';
+  document.getElementById('edit-col-file').value = '';
+  document.getElementById('edit-col-preview').innerHTML = '';
   document.getElementById('collection-edit-modal').classList.remove('hidden');
 }
 
@@ -1717,6 +1738,12 @@ function openEditCollectionModal(idx) {
   document.getElementById('edit-col-name').value = col.name;
   document.getElementById('edit-col-desc').value = col.description || '';
   document.getElementById('edit-col-image').value = col.image || '';
+  document.getElementById('edit-col-file').value = '';
+  if (col.image) {
+    document.getElementById('edit-col-preview').innerHTML = `<img src="${col.image}" class="w-16 h-16 object-cover rounded-lg border border-gold-500">`;
+  } else {
+    document.getElementById('edit-col-preview').innerHTML = '';
+  }
   document.getElementById('collection-edit-modal').classList.remove('hidden');
 }
 
@@ -1757,7 +1784,6 @@ function saveCollectionData() {
 }
 
 function deleteCollection(idx) {
-  const colName = state.collections[idx].name;
   state.collections.splice(idx, 1);
   saveToStorage('collections', state.collections);
   populateAdminCollections();
@@ -1770,14 +1796,15 @@ function populateAdminCatalogs() {
   const list = document.getElementById('admin-catalogs-list');
   if (!list) return;
   list.innerHTML = state.catalogs.map((c, idx) => `
-    <div class="glass-card p-4 rounded-xl flex items-center justify-between gap-4">
-      <div>
+    <div class="glass-card p-4 rounded-xl flex items-center gap-4">
+      <img src="${c.image || 'https://placehold.co/100x100/0a0a0a/d4af37?text=Catalog'}" alt="${c.name}" class="w-16 h-16 object-cover rounded-lg">
+      <div class="flex-1 min-w-0">
         <span class="text-[9px] uppercase tracking-widest text-gold-400 font-semibold">Collection: ${c.collection}</span>
-        <h4 class="font-serif text-sm font-bold text-white mt-0.5">${c.name}</h4>
+        <h4 class="font-serif text-sm font-bold text-white mt-0.5 truncate">${c.name}</h4>
       </div>
-      <div class="flex gap-2">
-        <button onclick="openEditCatalogModal(${idx})" class="px-3 py-1.5 rounded-lg bg-gold-500/15 text-gold-400 hover:bg-gold-500 hover:text-black text-xs font-semibold">Edit</button>
-        <button onclick="deleteCatalog(${idx})" class="px-3 py-1.5 rounded-lg bg-red-500/15 text-red-400 hover:bg-red-500 hover:text-white text-xs">Delete</button>
+      <div class="flex flex-col gap-1.5">
+        <button onclick="openEditCatalogModal(${idx})" class="px-2.5 py-1 rounded-md bg-gold-500/15 text-gold-400 hover:bg-gold-500 hover:text-black text-[10px] font-semibold">Edit</button>
+        <button onclick="deleteCatalog(${idx})" class="px-2.5 py-1 rounded-md bg-red-500/15 text-red-400 hover:bg-red-500 hover:text-white text-[10px] font-semibold">Delete</button>
       </div>
     </div>`).join('');
 }
@@ -1786,6 +1813,9 @@ function openAddCatalogModal() {
   document.getElementById('modal-catalog-title').innerText = 'Add New Catalog';
   document.getElementById('edit-catalog-id').value = '';
   document.getElementById('edit-cat-name').value = '';
+  document.getElementById('edit-cat-image').value = '';
+  document.getElementById('edit-cat-file').value = '';
+  document.getElementById('edit-cat-preview').innerHTML = '';
   populateCollectionSelectForCatalog();
   document.getElementById('catalog-edit-modal').classList.remove('hidden');
 }
@@ -1796,6 +1826,13 @@ function openEditCatalogModal(idx) {
   document.getElementById('edit-catalog-id').value = c.id;
   populateCollectionSelectForCatalog(c.collection);
   document.getElementById('edit-cat-name').value = c.name;
+  document.getElementById('edit-cat-image').value = c.image || '';
+  document.getElementById('edit-cat-file').value = '';
+  if (c.image) {
+    document.getElementById('edit-cat-preview').innerHTML = `<img src="${c.image}" class="w-16 h-16 object-cover rounded-lg border border-gold-500">`;
+  } else {
+    document.getElementById('edit-cat-preview').innerHTML = '';
+  }
   document.getElementById('catalog-edit-modal').classList.remove('hidden');
 }
 
@@ -1813,6 +1850,7 @@ function saveCatalogData() {
   const id = document.getElementById('edit-catalog-id').value;
   const collection = document.getElementById('edit-cat-collection').value;
   const name = document.getElementById('edit-cat-name').value.trim();
+  const image = document.getElementById('edit-cat-image').value.trim();
   if (!name || !collection) {
     showToast('Please select a collection and enter a catalog name.');
     return;
@@ -1822,18 +1860,21 @@ function saveCatalogData() {
     if (c) {
       c.collection = collection;
       c.name = name;
+      c.image = image;
     }
   } else {
     const newC = {
       id: 'cat-' + Date.now(),
       collection,
-      name
+      name,
+      image
     };
     state.catalogs.push(newC);
   }
   saveToStorage('catalogs', state.catalogs);
   closeCatalogEditModal();
   populateAdminCatalogs();
+  renderShopHierarchy();
   showToast('Catalog saved successfully.');
 }
 
@@ -1841,10 +1882,11 @@ function deleteCatalog(idx) {
   state.catalogs.splice(idx, 1);
   saveToStorage('catalogs', state.catalogs);
   populateAdminCatalogs();
+  renderShopHierarchy();
   showToast('Catalog deleted.');
 }
 
-// Listings (Products) Management
+// Listings (Products) Management with Color Swatches & Shade Picker
 function populateAdminProducts() {
   const list = document.getElementById('admin-products-list');
   if (!list) return;
@@ -1871,11 +1913,15 @@ function openAddProductModal() {
   document.getElementById('edit-prod-id').value = '';
   document.getElementById('edit-prod-name').value = '';
   document.getElementById('edit-prod-price').value = '';
-  document.getElementById('edit-prod-colors').value = 'Black, Gold, Navy';
   document.getElementById('edit-prod-sizes').value = 'S, M, L, XL';
   document.getElementById('edit-prod-imgs').value = '';
   document.getElementById('edit-prod-file-input').value = '';
   tempUploadedProductImgs = [];
+  adminColorVariants = [
+    { name: 'Jet Black', hex: '#111111', image: '' },
+    { name: 'Gold', hex: '#d4af37', image: '' }
+  ];
+  renderAdminColorRows();
   document.getElementById('edit-prod-preview').innerHTML = '';
   document.getElementById('edit-prod-desc').value = '';
   populateCollectionSelectForProduct();
@@ -1890,14 +1936,46 @@ function openEditProductModal(idx) {
   populateCollectionSelectForProduct(p.collection || p.category);
   populateCatalogSelectForProduct(p.catalog);
   document.getElementById('edit-prod-price').value = p.price;
-  document.getElementById('edit-prod-colors').value = p.colors ? p.colors.join(', ') : 'Black, Gold';
   document.getElementById('edit-prod-sizes').value = p.sizes ? p.sizes.join(', ') : 'S, M, L';
+  
+  adminColorVariants = (p.colors && p.colors.length > 0) ? p.colors.map(c => typeof c === 'string' ? { name: c, hex: '#d4af37', image: '' } : { ...c }) : [{ name: 'Standard', hex: '#d4af37', image: '' }];
+  renderAdminColorRows();
+
   const imgs = getProductImages(p);
   tempUploadedProductImgs = [...imgs];
   document.getElementById('edit-prod-imgs').value = JSON.stringify(tempUploadedProductImgs);
   updateProductImagePreview();
   document.getElementById('edit-prod-desc').value = p.description;
   document.getElementById('product-edit-modal').classList.remove('hidden');
+}
+
+function renderAdminColorRows() {
+  const container = document.getElementById('admin-color-rows-container');
+  if (!container) return;
+  container.innerHTML = adminColorVariants.map((col, index) => `
+    <div class="flex items-center gap-2 p-2 rounded-lg bg-onyx border border-gold-500/20">
+      <input type="color" value="${col.hex || '#d4af37'}" onchange="updateColorVariant(${index}, 'hex', this.value)" class="w-8 h-8 rounded border-0 bg-transparent cursor-pointer" title="Pick Shade">
+      <input type="text" value="${col.name || ''}" oninput="updateColorVariant(${index}, 'name', this.value)" placeholder="Color Name (e.g. Navy)" class="flex-1 bg-charcoal border border-gold-500/30 rounded-lg p-2 text-xs text-white focus:outline-none">
+      <input type="url" value="${col.image || ''}" oninput="updateColorVariant(${index}, 'image', this.value)" placeholder="Matching Image URL (optional)" class="flex-1 bg-charcoal border border-gold-500/30 rounded-lg p-2 text-xs text-white focus:outline-none font-mono">
+      <button type="button" onclick="removeAdminColorRow(${index})" class="text-red-400 hover:text-red-300 px-2 py-1 text-xs font-bold">&times;</button>
+    </div>
+  `).join('');
+}
+
+function addAdminColorRow() {
+  adminColorVariants.push({ name: '', hex: '#d4af37', image: '' });
+  renderAdminColorRows();
+}
+
+function removeAdminColorRow(index) {
+  adminColorVariants.splice(index, 1);
+  renderAdminColorRows();
+}
+
+function updateColorVariant(index, field, value) {
+  if (adminColorVariants[index]) {
+    adminColorVariants[index][field] = value;
+  }
 }
 
 function closeProductEditModal() {
@@ -1925,7 +2003,6 @@ function saveProductData() {
   const collection = document.getElementById('edit-prod-col').value;
   const catalog = document.getElementById('edit-prod-catalog-select').value;
   const price = parseFloat(document.getElementById('edit-prod-price').value) || 0;
-  const colorsRaw = document.getElementById('edit-prod-colors').value.trim();
   const sizesRaw = document.getElementById('edit-prod-sizes').value.trim();
   const description = document.getElementById('edit-prod-desc').value.trim();
   
@@ -1937,8 +2014,8 @@ function saveProductData() {
   if (images.length === 0) {
     images = ['https://placehold.co/600x750/0a0a0a/d4af37?text=AVELON'];
   }
-  const colors = colorsRaw ? colorsRaw.split(',').map(s => s.trim()).filter(Boolean) : ['Standard'];
   const sizes = sizesRaw ? sizesRaw.split(',').map(s => s.trim()).filter(Boolean) : ['Standard'];
+  const colors = adminColorVariants.filter(c => c.name.trim() !== '');
 
   if (id) {
     const p = state.products.find(item => item.id === id);
@@ -1948,7 +2025,7 @@ function saveProductData() {
       p.category = collection;
       p.catalog = catalog;
       p.price = price;
-      p.colors = colors;
+      p.colors = colors.length > 0 ? colors : [{ name: 'Standard', hex: '#d4af37', image: '' }];
       p.sizes = sizes;
       p.images = images;
       p.description = description;
@@ -1961,7 +2038,7 @@ function saveProductData() {
       category: collection,
       catalog,
       price,
-      colors,
+      colors: colors.length > 0 ? colors : [{ name: 'Standard', hex: '#d4af37', image: '' }],
       sizes,
       images,
       description,
